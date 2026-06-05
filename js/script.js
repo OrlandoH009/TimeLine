@@ -8,4 +8,4 @@
       else btn.classList.remove('active');
     });
   });
-})();
+});
