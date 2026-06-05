@@ -1,0 +1,272 @@
+/* ── RESET & ROOT ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg:      #07071a;
+  --surface: #0d0d25;
+  --card:    #10102a;
+  --border:  #1c1c3a;
+  --text:    #dde4f0;
+  --muted:   #7a849a;
+  --accent:  #00cfff;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Exo 2', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND GRID ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(0,207,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,207,255,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(7,7,26,.95);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch;
+  overflow-x: auto; scrollbar-width: none;
+  box-shadow: 0 2px 30px rgba(0,0,0,.5);
+}
+nav::-webkit-scrollbar { display: none; }
+
+.nav-logo {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900; font-size: .8rem;
+  color: var(--accent);
+  letter-spacing: .06em;
+  padding: 0 1.2rem;
+  display: flex; align-items: center;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+  text-shadow: 0 0 14px var(--accent);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .7rem; letter-spacing: .05em;
+  color: var(--muted);
+  padding: 0 .9rem;
+  white-space: nowrap;
+  position: relative;
+  transition: color .2s;
+  flex-shrink: 0;
+}
+.nav-btn::after {
+  content: '';
+  position: absolute; bottom: 0; left: 50%; right: 50%;
+  height: 2px;
+  transition: left .22s, right .22s, background .22s;
+  background: var(--accent);
+}
+.nav-btn:hover { color: #fff; }
+.nav-btn:hover::after { left: 8%; right: 8%; }
+.nav-btn.active { color: var(--accent); }
+.nav-btn.active::after { left: 0; right: 0; background: var(--accent); }
+
+/* ── PAGES ── */
+.page { display: none; position: relative; z-index: 1; animation: fadeIn .4s ease both; }
+.page.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── HOME PAGE ── */
+.home-hero {
+  min-height: 92vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 4rem 2rem;
+  position: relative;
+}
+.home-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(0,207,255,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.home-kicker {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .75rem; letter-spacing: .3em;
+  color: var(--accent); margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  animation: fadeIn .5s .1s both;
+}
+.home-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: clamp(2rem, 6vw, 4.2rem);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #00cfff 0%, #7c3aed 55%, #ff6b35 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeIn .5s .2s both;
+}
+.home-sub {
+  font-size: 1rem; color: var(--muted); max-width: 500px;
+  line-height: 1.75; margin-bottom: 3.5rem;
+  animation: fadeIn .5s .3s both;
+}
+
+/* Decade grid on home */
+.decade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem; max-width: 900px; width: 100%;
+  animation: fadeIn .5s .4s both;
+}
+.decade-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.4rem 1rem;
+  cursor: pointer;
+  transition: border-color .22s, box-shadow .22s, transform .22s;
+  text-align: center; position: relative; overflow: hidden;
+}
+.decade-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(var(--dc-rgb),0.08) 0%, transparent 60%);
+  opacity: 0; transition: opacity .22s;
+}
+.decade-card:hover::before { opacity: 1; }
+.decade-card:hover {
+  border-color: var(--dc-color, var(--accent));
+  box-shadow: 0 0 24px rgba(var(--dc-rgb, 0,207,255),.18);
+  transform: translateY(-3px);
+}
+.dc-year {
+  font-family: 'Orbitron', monospace; font-weight: 700;
+  font-size: 1.2rem; margin-bottom: .4rem;
+  color: var(--dc-color, var(--accent));
+}
+.dc-stage {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .65rem; letter-spacing: .07em;
+  color: var(--muted); line-height: 1.4;
+}
+
+/* ── DECADE PAGE ── */
+.decade-page { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+.decade-page-header {
+  margin-bottom: 3rem; padding-bottom: 1.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.dph-stage {
+  font-family: 'Share Tech Mono', monospace; font-size: .7rem;
+  letter-spacing: .18em; color: var(--dc-color, var(--accent));
+  margin-bottom: .6rem; text-transform: uppercase;
+}
+.dph-title {
+  font-family: 'Orbitron', monospace; font-weight: 900;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  color: var(--dc-color, var(--accent));
+  text-shadow: 0 0 28px rgba(var(--dc-rgb,0,207,255),.3);
+  margin-bottom: .5rem;
+}
+.dph-years {
+  font-family: 'Share Tech Mono', monospace; font-size: .8rem;
+  color: var(--muted);
+}
+.dph-nav {
+  display: flex; gap: .6rem; margin-top: 1.2rem; flex-wrap: wrap;
+}
+.dph-navbtn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted); cursor: pointer;
+  font-family: 'Share Tech Mono', monospace; font-size: .68rem;
+  padding: .35rem .8rem; border-radius: 4px;
+  transition: border-color .2s, color .2s;
+  letter-spacing: .05em;
+}
+.dph-navbtn:hover {
+  border-color: var(--dc-color, var(--accent));
+  color: var(--dc-color, var(--accent));
+}
+
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 2.2rem; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 9px; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg,
+    rgba(var(--dc-rgb,0,207,255),.5) 0%,
+    rgba(var(--dc-rgb,0,207,255),.05) 100%);
+}
+
+.milestone {
+  position: relative; margin-bottom: 2rem;
+  padding: 1.4rem 1.5rem 1.2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  transition: border-color .22s, box-shadow .22s, transform .22s;
+}
+.milestone::before {
+  content: '';
+  position: absolute; left: -2.7rem; top: 1.5rem;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--dc-color, var(--accent));
+  box-shadow: 0 0 10px var(--dc-color, var(--accent));
+  border: 2px solid var(--bg);
+}
+.milestone:hover {
+  border-color: var(--dc-color, var(--accent));
+  box-shadow: 0 4px 28px rgba(var(--dc-rgb,0,207,255),.14);
+  transform: translateX(5px);
+}
+.milestone-year {
+  display: inline-block;
+  font-family: 'Orbitron', monospace; font-weight: 700; font-size: .82rem;
+  color: var(--dc-color, var(--accent));
+  background: rgba(var(--dc-rgb,0,207,255),.09);
+  border: 1px solid rgba(var(--dc-rgb,0,207,255),.25);
+  padding: .18rem .65rem; border-radius: 4px;
+  margin-bottom: .65rem; letter-spacing: .06em;
+}
+.milestone h3 {
+  font-family: 'Exo 2', sans-serif; font-weight: 700;
+  font-size: 1rem; color: #fff; margin-bottom: .5rem; line-height: 1.4;
+}
+.milestone p {
+  font-size: .875rem; color: var(--muted); line-height: 1.7;
+}
+.milestone .tag {
+  display: inline-block; margin-top: .7rem;
+  font-family: 'Share Tech Mono', monospace; font-size: .62rem;
+  letter-spacing: .08em;
+  color: var(--dc-color, var(--accent));
+  border: 1px solid rgba(var(--dc-rgb,0,207,255),.22);
+  padding: .15rem .55rem; border-radius: 3px; opacity: .75;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  text-align: center; padding: 1.8rem;
+  border-top: 1px solid var(--border);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; color: var(--muted); letter-spacing: .07em;
+}
+footer span { color: var(--accent); }
