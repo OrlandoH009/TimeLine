@@ -1,4 +1,3 @@
-// Centralized UI script: set active nav button based on filename
 (function(){
   document.addEventListener('DOMContentLoaded', function(){
     const file = location.pathname.split('/').pop() || 'index.html';
@@ -8,4 +7,4 @@
       else btn.classList.remove('active');
     });
   });
-});
+})();
